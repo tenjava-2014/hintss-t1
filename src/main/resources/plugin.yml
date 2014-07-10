@@ -1,0 +1,3 @@
+name: hintss-t1
+main: com.tenjava.entries.hintss.t1.TenJava
+version: '${project.version}'
