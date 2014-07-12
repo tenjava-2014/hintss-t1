@@ -3,6 +3,8 @@ package com.tenjava.entries.hintss.t1;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class TenJava extends JavaPlugin {
+    private GravityGunTracker gravityGunTracker = new GravityGunTracker();
+
     @Override
     public void onEnable() {
         saveDefaultConfig();
@@ -12,5 +14,9 @@ public class TenJava extends JavaPlugin {
     @Override
     public void onDisable() {
 
+    }
+
+    public GravityGunTracker getGravityGunTracker() {
+        return gravityGunTracker;
     }
 }
