@@ -2,6 +2,7 @@ package com.tenjava.entries.hintss.t1;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -9,6 +10,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.UUID;
 
 /**
@@ -22,14 +24,21 @@ public class GravityGunTracker {
         new BukkitRunnable() {
             @Override
             public void run() {
-                for (UUID u : playerGrabbedEntities.keySet()) {
-                    Player p = Bukkit.getPlayer(u);
-                    Entity e = Util.getNearbyEntityByUUID(p, playerGrabbedEntities.get(p.getUniqueId()), 10);
+                for (Iterator<UUID> iter = playerGrabbedEntities.keySet().iterator(); iter.hasNext(); ) {
+                    UUID uuid = iter.next();
+                    Player p = Bukkit.getPlayer(uuid);
 
+                    if (p == null) {
+                        iter.remove();
+                    } else {
+                        Entity e = Util.getNearbyEntityByUUID(p, playerGrabbedEntities.get(p.getUniqueId()), 10);
 
-                    if (e != null) {
-                        Util.teleportIgnoreAngle(e, grabLocation(p));
-                        e.setVelocity(new Vector(0, 0, 0));
+                        if (e == null) {
+                            iter.remove();
+                        } else {
+                            Util.teleportIgnoreAngle(e, grabLocation(p));
+                            e.setVelocity(new Vector(0, 0, 0));
+                        }
                     }
                 }
             }
@@ -75,6 +84,7 @@ public class GravityGunTracker {
     public void grab(Player p, Block b) {
         if (Util.canBreak(p, b)) {
             Entity e = p.getWorld().spawnFallingBlock(grabLocation(p), b.getType(), b.getData());
+            b.setType(Material.AIR);
             grab(p, e);
         }
     }

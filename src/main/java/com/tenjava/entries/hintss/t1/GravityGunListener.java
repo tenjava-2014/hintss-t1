@@ -32,6 +32,7 @@ public class GravityGunListener implements Listener {
             if (plugin.getGravityGunTracker().isHoldingEntity(event.getPlayer())) {
                 if (event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR) {
                     plugin.getGravityGunTracker().throwEntity(event.getPlayer());
+                    event.setCancelled(true);
                 }
             } else {
                 if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
