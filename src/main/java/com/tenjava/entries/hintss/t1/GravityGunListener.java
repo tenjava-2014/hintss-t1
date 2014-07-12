@@ -9,6 +9,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.util.Vector;
 
 import java.util.List;
@@ -42,11 +43,6 @@ public class GravityGunListener implements Listener {
                     }
 
                     event.setCancelled(true);
-                } else if (event.getAction() == Action.RIGHT_CLICK_AIR) {
-                    // grab block from distance
-// TODO - this
-
-                    event.setCancelled(true);
                 } else if (event.getAction() == Action.LEFT_CLICK_AIR) {
                     // propel stuff away
                     double pushRange = plugin.getConfig().getDouble("gravity_gun.push_range");
@@ -68,7 +64,6 @@ public class GravityGunListener implements Listener {
     public void onHit(PlayerInteractEntityEvent event) {
         // if player is holding the item set in the config and has the permission node to use it
         if (event.getPlayer().getItemInHand() != null && event.getPlayer().getItemInHand().getType().name().equals(plugin.getConfig().getString("gravity_gun.item")) && event.getPlayer().hasPermission("tenjava.gravitygun")) {
-
             if (plugin.getGravityGunTracker().isHoldingEntity(event.getPlayer())) {
                 plugin.getGravityGunTracker().throwEntity(event.getPlayer());
             } else {
@@ -101,7 +96,12 @@ public class GravityGunListener implements Listener {
         }
     }
 
-    // TODO - listen on item changes, player logouts
+    @EventHandler
+    public void onItemChange(PlayerItemHeldEvent event) {
+        if (plugin.getGravityGunTracker().isHoldingEntity(event.getPlayer())) {
+            plugin.getGravityGunTracker().throwEntity(event.getPlayer());
+        }
+    }
 
     /**
      * Calculates the vector you'd need to push an entity away from a player
