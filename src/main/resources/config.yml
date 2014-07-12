@@ -5,4 +5,4 @@ gravity_gun:
   push_range: 5
   push_angle: 90
   push_strength: 1
-  throw_strength: 5
+  throw_strength: 3
