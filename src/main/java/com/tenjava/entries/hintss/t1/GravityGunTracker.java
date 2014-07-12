@@ -82,7 +82,7 @@ public class GravityGunTracker {
      * @param b the block being grabbed
      */
     public void grab(Player p, Block b) {
-        if (Util.canBreak(p, b)) {
+        if (Util.canBreak(p, b) && b.getType().isSolid()) {
             Entity e = p.getWorld().spawnFallingBlock(grabLocation(p), b.getType(), b.getData());
             b.setType(Material.AIR);
             grab(p, e);
