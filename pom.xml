@@ -28,7 +28,7 @@
 	</dependencies>
 
 	<build>
-		<defaultGoal>package</defaultGoal>
+		<defaultGoal>clean package</defaultGoal>
 		<finalName>${project.artifactId}</finalName>
 		<plugins>
 			<plugin>
