@@ -1,6 +1,7 @@
 package com.tenjava.entries.hintss.t1;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Hanging;
@@ -53,5 +54,18 @@ public class Util {
         }
 
         return potentialEntities;
+    }
+
+    /**
+     * teleports an entity to a location, ignoring yaw/pitch
+     * @param e the entity
+     * @param loc the location
+     */
+    public static void teleportIgnoreAngle(Entity e, Location loc) {
+        Location location = loc.clone();
+        location.setPitch(e.getLocation().getPitch());
+        location.setYaw(e.getLocation().getYaw());
+
+        e.teleport(location);
     }
 }
