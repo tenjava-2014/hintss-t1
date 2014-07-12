@@ -17,10 +17,17 @@ import java.util.UUID;
  * Created by Henry on 7/11/2014.
  */
 public class GravityGunTracker {
+    private TenJava plugin;
+
     // hashmap with <player's uuid, entitie's uuid>
     private HashMap<UUID, UUID> playerGrabbedEntities = new HashMap<UUID, UUID>();
+    // how far the thing is from the player gramming it
+    // too lazy to oop this
+    private HashMap<UUID, Double> grabDistance = new HashMap<UUID, Double>();
 
     public GravityGunTracker(TenJava plugin) {
+        this.plugin = plugin;
+
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -71,7 +78,7 @@ public class GravityGunTracker {
     private Location grabLocation(Player p) {
         Location loc = p.getLocation();
         Vector inFront = p.getLocation().getDirection().normalize();
-        loc.add(inFront.multiply(5));
+        loc.add(inFront.multiply(grabDistance.get(p.getUniqueId())));
 
         return loc;
     }
@@ -92,10 +99,12 @@ public class GravityGunTracker {
     public void grab(Player p, Entity e) {
         Util.teleportIgnoreAngle(e, grabLocation(p));
         playerGrabbedEntities.put(p.getUniqueId(), e.getUniqueId());
+        grabDistance.put(p.getUniqueId(), p.getEyeLocation().distance(e.getLocation()));
     }
 
     public void throwEntity(Player p) {
-        Util.getNearbyEntityByUUID(p, playerGrabbedEntities.get(p.getUniqueId()), 10);
+        Util.getNearbyEntityByUUID(p, playerGrabbedEntities.get(p.getUniqueId()), 10).setVelocity(p.getLocation().getDirection().normalize().multiply(plugin.getConfig().getDouble("gravity_gun.throw_strength")));
         playerGrabbedEntities.remove(p.getUniqueId());
+        grabDistance.remove(p.getUniqueId());
     }
 }
