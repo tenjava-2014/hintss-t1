@@ -29,6 +29,5 @@ Usage
 1. Install plugin
 2. Edit config
 3. Set permissions (tenjava.gravitygun for gravity gun)
-
-<!-- Hi, hintss! This is the default README for every ten.java submission. -->
-<!-- We encourage you to edit this README with some information about your submission – keep in mind you'll be scored on documentation! -->
+4. Right-click on a block to grab it
+5. Right-click again to throw it!
