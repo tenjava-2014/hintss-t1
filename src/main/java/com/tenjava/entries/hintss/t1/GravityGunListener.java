@@ -26,28 +26,24 @@ public class GravityGunListener implements Listener {
     @EventHandler
     public void onHit(PlayerInteractEvent event) {
         // checks if the player is holding the item set in the config and has the permission node to use it
-        // TODO - come up with a plugin name to put in the permission
         if (event.getItem() != null && event.getItem().getType().name().equals(plugin.getConfig().getString("gravity_gun.item")) && event.getPlayer().hasPermission("tenjava.gravitygun")) {
 
             // if they're holding a block using the gravity gun
             if (plugin.getGravityGunTracker().isHoldingEntity(event.getPlayer())) {
-                // TODO - throw entities
+                if (event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR) {
+                    plugin.getGravityGunTracker().throwEntity(event.getPlayer());
+                }
             } else {
                 if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
                     // grab block
                     if (Util.canBreak(event.getPlayer(), event.getClickedBlock())) {
-                        // TODO - grab block
+                        plugin.getGravityGunTracker().grab(event.getPlayer(), event.getClickedBlock());
                     }
 
                     event.setCancelled(true);
                 } else if (event.getAction() == Action.RIGHT_CLICK_AIR) {
                     // grab block from distance
-
-                    // TODO - get block
-
-                    // TODO - check break perms
-
-                    // TODO - grab block
+// TODO - this
 
                     event.setCancelled(true);
                 } else if (event.getAction() == Action.LEFT_CLICK_AIR) {
@@ -70,13 +66,12 @@ public class GravityGunListener implements Listener {
     @EventHandler
     public void onHit(PlayerInteractEntityEvent event) {
         // if player is holding the item set in the config and has the permission node to use it
-        // TODO - come up with plugin name to put in permission node
         if (event.getPlayer().getItemInHand() != null && event.getPlayer().getItemInHand().getType().name().equals(plugin.getConfig().getString("gravity_gun.item")) && event.getPlayer().hasPermission("tenjava.gravitygun")) {
 
             if (plugin.getGravityGunTracker().isHoldingEntity(event.getPlayer())) {
-                // TODO - throw entity
+                plugin.getGravityGunTracker().throwEntity(event.getPlayer());
             } else {
-                // TODO - pick up entity
+                plugin.getGravityGunTracker().grab(event.getPlayer(), event.getRightClicked());
             }
 
             event.setCancelled(true);

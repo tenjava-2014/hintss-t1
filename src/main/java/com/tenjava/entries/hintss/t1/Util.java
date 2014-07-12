@@ -10,6 +10,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by Henry on 7/11/2014.
@@ -67,5 +68,26 @@ public class Util {
         location.setYaw(e.getLocation().getYaw());
 
         e.teleport(location);
+    }
+
+    /**
+     * looks within a certain distance of an entity for an entity with the given uuid
+     * @param e the entity we're looking near
+     * @param u the uuid of the entity we're looking for
+     * @param range the range in which we're looking for the entity
+     * @return
+     */
+    public static Entity getNearbyEntityByUUID(Entity e, UUID u, double range) {
+        if (e == null) {
+            return null;
+        }
+
+        for (Entity possible : e.getNearbyEntities(range, range, range)) {
+            if (possible.getUniqueId().equals(u)) {
+                return possible;
+            }
+        }
+
+        return null;
     }
 }
