@@ -27,7 +27,7 @@ public class GravityGunListener implements Listener {
     public void onHit(PlayerInteractEvent event) {
         // checks if the player is holding the item set in the config and has the permission node to use it
         // TODO - come up with a plugin name to put in the permission
-        if (event.getItem() != null && event.getItem().getType().toString().equals(plugin.getConfig().getString("gravity_gun.item")) && event.getPlayer().hasPermission("tenjava.gravitygun")) {
+        if (event.getItem() != null && event.getItem().getType().name().equals(plugin.getConfig().getString("gravity_gun.item")) && event.getPlayer().hasPermission("tenjava.gravitygun")) {
             if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
                 // grab block
                 if (Util.canBreak(event.getPlayer(), event.getClickedBlock())) {
@@ -59,7 +59,7 @@ public class GravityGunListener implements Listener {
     public void onHit(PlayerInteractEntityEvent event) {
         // if player is holding the item set in the config and has the permission node to use it
         // TODO - come up with plugin name to put in permission node
-        if (event.getPlayer().getItemInHand() != null && event.getPlayer().getItemInHand().getType().toString().equals(plugin.getConfig().getString("gravity_gun.item")) && event.getPlayer().hasPermission("tenjava.gravitygun")) {
+        if (event.getPlayer().getItemInHand() != null && event.getPlayer().getItemInHand().getType().name().equals(plugin.getConfig().getString("gravity_gun.item")) && event.getPlayer().hasPermission("tenjava.gravitygun")) {
             // TODO - pick up entity
         }
     }
@@ -68,7 +68,7 @@ public class GravityGunListener implements Listener {
     public void onHit(EntityDamageByEntityEvent event) {
         if (event.getDamager() instanceof Player) {
             // TODO - plugin name for permission node (again)
-            if (((Player) event.getDamager()).getItemInHand() != null && ((Player) event.getDamager()).getItemInHand().getType().toString().equals(plugin.getConfig().getString("gravity_gun.item")) && ((Player) event.getDamager()).hasPermission("tenjava.gravitygun")) {
+            if (((Player) event.getDamager()).getItemInHand() != null && ((Player) event.getDamager()).getItemInHand().getType().name().equals(plugin.getConfig().getString("gravity_gun.item")) && ((Player) event.getDamager()).hasPermission("tenjava.gravitygun")) {
                 event.getEntity().setVelocity(getPushVector((Player) event.getDamager(), event.getEntity(), plugin.getConfig().getDouble("gravity_gun.push_strength")));
             }
         }
