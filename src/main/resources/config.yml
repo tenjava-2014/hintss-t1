@@ -1,0 +1,8 @@
+GravityGunItem: BLAZE_ROD
+
+gravity_gun:
+  item: BLAZE_ROD
+  push_range: 5
+  push_angle: 90
+  push_strength: 1
+  grab_range: 5
