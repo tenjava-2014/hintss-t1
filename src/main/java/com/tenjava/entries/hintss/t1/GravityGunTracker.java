@@ -43,7 +43,12 @@ public class GravityGunTracker {
                         if (e == null) {
                             iter.remove();
                         } else {
-                            Util.teleportIgnoreAngle(e, grabLocation(p));
+                            Location teleportLoc = grabLocation(p);
+
+                            if (!teleportLoc.getBlock().getType().isSolid() && !teleportLoc.clone().add(0, 1, 0).getBlock().getType().isSolid()) {
+                                Util.teleportIgnoreAngle(e, grabLocation(p));
+                            }
+
                             e.setVelocity(new Vector(0, 0, 0));
                         }
                     }
@@ -76,7 +81,7 @@ public class GravityGunTracker {
      * @return the location where they would be holding something
      */
     private Location grabLocation(Player p) {
-        Location loc = p.getLocation();
+        Location loc = p.getEyeLocation();
         Vector inFront = p.getLocation().getDirection().normalize();
         loc.add(inFront.multiply(grabDistance.get(p.getUniqueId())));
 
@@ -90,18 +95,28 @@ public class GravityGunTracker {
      */
     public void grab(Player p, Block b) {
         if (Util.canBreak(p, b) && b.getType().isSolid()) {
+            grabDistance.put(p.getUniqueId(), p.getEyeLocation().distance(b.getLocation()));
             Entity e = p.getWorld().spawnFallingBlock(grabLocation(p), b.getType(), b.getData());
             b.setType(Material.AIR);
             grab(p, e);
         }
     }
 
+    /**
+     * grabs an entity
+     * @param p the player grabbing the entity
+     * @param e the entity being grabbed
+     */
     public void grab(Player p, Entity e) {
+        grabDistance.put(p.getUniqueId(), p.getEyeLocation().distance(e.getLocation()));
         Util.teleportIgnoreAngle(e, grabLocation(p));
         playerGrabbedEntities.put(p.getUniqueId(), e.getUniqueId());
-        grabDistance.put(p.getUniqueId(), p.getEyeLocation().distance(e.getLocation()));
     }
 
+    /**
+     * throws the entity a player grabbed
+     * @param p the player throwing
+     */
     public void throwEntity(Player p) {
         Util.getNearbyEntityByUUID(p, playerGrabbedEntities.get(p.getUniqueId()), 10).setVelocity(p.getLocation().getDirection().normalize().multiply(plugin.getConfig().getDouble("gravity_gun.throw_strength")));
         playerGrabbedEntities.remove(p.getUniqueId());
