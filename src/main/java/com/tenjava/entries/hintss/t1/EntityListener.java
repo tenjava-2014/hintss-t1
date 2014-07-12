@@ -6,6 +6,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 
 /**
  * Created by Henry on 7/11/2014.
@@ -40,8 +41,21 @@ public class EntityListener implements Listener {
     }
 
     @EventHandler
-    public void onDamage(EntityDamageEvent event) {
-        // cancel things getting hurt by suffocating
+    public void onTeleport(PlayerTeleportEvent event) {
+        // cancel players teleporting while being grabbed
+        if (plugin.getGravityGunTracker().isBeingGrabbed(event.getPlayer())) {
+            if (event.getTo().distanceSquared(event.getFrom()) > 50) {
+                event.setCancelled(true);
+            }
+        }
+    }
 
+    @EventHandler
+    public void onDamage(EntityDamageEvent event) {
+        if (event.getCause() == EntityDamageEvent.DamageCause.SUFFOCATION) {
+            if (plugin.getGravityGunTracker().isBeingGrabbed(event.getEntity())) {
+                event.setCancelled(true);
+            }
+        }
     }
 }
