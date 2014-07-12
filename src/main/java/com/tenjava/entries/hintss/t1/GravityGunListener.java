@@ -6,13 +6,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.util.Vector;
-
-import java.util.List;
 
 /**
  * Created by Henry on 7/11/2014.
@@ -43,7 +40,7 @@ public class GravityGunListener implements Listener {
                     }
 
                     event.setCancelled(true);
-                } else if (event.getAction() == Action.LEFT_CLICK_AIR) {
+                }/* else if (event.getAction() == Action.LEFT_CLICK_AIR) {
                     // propel stuff away
                     double pushRange = plugin.getConfig().getDouble("gravity_gun.push_range");
                     double pushAngle = plugin.getConfig().getDouble("gravity_gun.push_angle");
@@ -55,7 +52,7 @@ public class GravityGunListener implements Listener {
                     }
 
                     event.setCancelled(true);
-                }
+                }*/
             }
         }
     }
@@ -64,16 +61,16 @@ public class GravityGunListener implements Listener {
     public void onHit(PlayerInteractEntityEvent event) {
         // if player is holding the item set in the config and has the permission node to use it
         if (event.getPlayer().getItemInHand() != null && event.getPlayer().getItemInHand().getType().name().equals(plugin.getConfig().getString("gravity_gun.item")) && event.getPlayer().hasPermission("tenjava.gravitygun")) {
-            if (plugin.getGravityGunTracker().isHoldingEntity(event.getPlayer())) {
-                plugin.getGravityGunTracker().throwEntity(event.getPlayer());
-            } else {
+            if (!plugin.getGravityGunTracker().isHoldingEntity(event.getPlayer())) {
                 plugin.getGravityGunTracker().grab(event.getPlayer(), event.getRightClicked());
+                plugin.getGravityGunTracker().throwEntity(event.getPlayer());
             }
 
             event.setCancelled(true);
         }
     }
 
+    /*
     @EventHandler
     public void onHit(EntityDamageByEntityEvent event) {
         // push entities away from the player
@@ -94,7 +91,7 @@ public class GravityGunListener implements Listener {
                 }
             }
         }
-    }
+    }*/
 
     @EventHandler
     public void onItemChange(PlayerItemHeldEvent event) {
