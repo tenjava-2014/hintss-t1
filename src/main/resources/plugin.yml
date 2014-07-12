@@ -1,3 +1,10 @@
 name: hintss-t1
 main: com.tenjava.entries.hintss.t1.TenJava
 version: '${project.version}'
+description: A shoddy gravity gun plugin for ten.java
+
+commands:
+  gravitygun:
+    description: gravitygun command
+    usage: /gravitygun reload
+    aliases: [gg]

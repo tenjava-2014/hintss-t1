@@ -28,6 +28,6 @@ Usage
 
 1. Install plugin
 2. Edit config
-3. Set permissions (tenjava.gravitygun for gravity gun)
+3. Set permissions (gravitygun.gun for gravity gun, gravitygun.reload for /gravitygun reload)
 4. Right-click on a block to grab it
 5. Right-click again to throw it!
