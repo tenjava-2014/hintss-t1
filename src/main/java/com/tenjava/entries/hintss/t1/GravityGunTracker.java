@@ -21,6 +21,8 @@ public class GravityGunTracker {
 
     // hashmap with <player's uuid, entitie's uuid>
     private HashMap<UUID, UUID> playerGrabbedEntities = new HashMap<UUID, UUID>();
+    // the opposite of above
+    private HashMap<UUID, UUID> grabbedEntitiesPlayers = new HashMap<UUID, UUID>();
     // how far the thing is from the player gramming it
     // too lazy to oop this
     private HashMap<UUID, Double> grabDistance = new HashMap<UUID, Double>();
@@ -76,6 +78,15 @@ public class GravityGunTracker {
     }
 
     /**
+     * gets the player grabbing an entity
+     * @param e the entity we want to know who's grabbing
+     * @return the player grabbing it
+     */
+    public Player getGrabbingPlayer(Entity e) {
+        return Bukkit.getPlayer(grabbedEntitiesPlayers.get(e.getUniqueId()));
+    }
+
+    /**
      * gets where an entity would be held if it was being held by this player
      * @param p the player
      * @return the location where they would be holding something
@@ -111,6 +122,7 @@ public class GravityGunTracker {
         grabDistance.put(p.getUniqueId(), p.getEyeLocation().distance(e.getLocation()));
         Util.teleportIgnoreAngle(e, grabLocation(p));
         playerGrabbedEntities.put(p.getUniqueId(), e.getUniqueId());
+        grabbedEntitiesPlayers.put(e.getUniqueId(), p.getUniqueId());
     }
 
     /**
