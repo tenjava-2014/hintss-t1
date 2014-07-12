@@ -105,6 +105,8 @@ public class GravityGunListener implements Listener {
         }
     }
 
+    // TODO - listen on item changes, player logouts
+
     /**
      * Calculates the vector you'd need to push an entity away from a player
      * @param p player being pushed away from

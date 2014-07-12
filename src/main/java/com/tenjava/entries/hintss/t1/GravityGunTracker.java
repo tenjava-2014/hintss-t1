@@ -1,5 +1,6 @@
 package com.tenjava.entries.hintss.t1;
 
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -21,5 +22,12 @@ public class GravityGunTracker {
         return playerGrabbedEntities.containsKey(p.getUniqueId());
     }
 
-
+    /**
+     * gets if an entity is being grabbed by a player's gravity gun
+     * @param e the entity
+     * @return if the entity is being grabbed
+     */
+    public boolean isBeingGrabbed(Entity e) {
+        return playerGrabbedEntities.containsValue(e.getUniqueId());
+    }
 }

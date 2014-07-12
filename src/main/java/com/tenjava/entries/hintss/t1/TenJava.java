@@ -8,6 +8,8 @@ public class TenJava extends JavaPlugin {
     @Override
     public void onEnable() {
         saveDefaultConfig();
+
+        getServer().getPluginManager().registerEvents(new EntityListener(this), this);
         getServer().getPluginManager().registerEvents(new GravityGunListener(this), this);
     }
 
